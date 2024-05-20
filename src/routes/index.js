@@ -4,6 +4,8 @@ import jsDocsConfig from 'swagger-jsdoc'
 import uiDoc from 'swagger-ui-express'
 import { swaggerConfig } from '../config/swagger.js'
 
+import files from './files.js'
+
 const configDocumentation = jsDocsConfig(swaggerConfig)
 
 const routes = Router()
@@ -37,5 +39,7 @@ routes.use('/api/documentation', uiDoc.serve, uiDoc.setup(configDocumentation))
 routes.get('/', (_, res) => {
     res.status(200).json({ message: '😃 everything works ✅' })
 })
+
+routes.use('/api/v1/files', files)
 
 export default routes
