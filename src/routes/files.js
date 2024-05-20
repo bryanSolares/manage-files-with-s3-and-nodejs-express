@@ -12,7 +12,8 @@ const upload = multer({
     fileFilter: (req, file, cb) => {
         if (!file.mimetype.match(/(jpg|jpeg|png|gif|bmp)$/)) return cb(null, false)
         cb(null, true)
-    }
+    },
+    limits: { fileSize: '10MB' }
 })
 
 const s3 = new S3Client({
