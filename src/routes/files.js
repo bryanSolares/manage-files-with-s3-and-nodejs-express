@@ -56,7 +56,7 @@ routes.delete('/', async (req, res) => {
         const command = new DeleteObjectCommand({ Bucket: bucketName, Key: id })
         const response = await s3.send(command)
 
-        res.status(200).json({ message: 'Delete successfully!', response })
+        res.status(200).json({ message: 'Delete successfully!' })
     } catch (error) {
         res.status(500).json({ message: error.message })
     }

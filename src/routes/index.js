@@ -40,6 +40,57 @@ routes.get('/', (_, res) => {
     res.status(200).json({ message: '😃 everything works ✅' })
 })
 
+/**
+ * @swagger
+ * tags:
+ *  name: Manage files
+ *  description: Upload file to S3
+ * /api/v1/files/upload:
+ *  post:
+ *      summary: Upload file API
+ *      tags: [Manage files]
+ *      responseBody:
+ *          description: Status upload file
+ *          content:
+ *              application/json:
+ *      responses:
+ *          200:
+ *              description: "Successfully upload file"
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              message:
+ *                                  type: string
+ *                              keyObject:
+ *                                  type: string
+ *
+ *
+ *  /api/v1/files/delete:
+ *  delete:
+ *      summary: Delete file API
+ *      tags: [Manage files]
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          id:
+ *                              type: string
+ *      responses:
+ *          200:
+ *              description: "Delete successfully!"
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: object
+ *                          properties:
+ *                              message:
+ *                                  type: string
+ */
 routes.use('/api/v1/files', files)
 
 export default routes
