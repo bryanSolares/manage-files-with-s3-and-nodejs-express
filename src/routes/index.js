@@ -143,9 +143,16 @@ routes.get('/', (_, res) => {
  *                name: key
  *                type: string
  *                required: true
+ *              - in: query
+ *                name: download
+ *                required: false
+ *                description: "true or false"
+ *                schema:
+ *                  type: string
+ *                  enum: [true, false]
  *          responses:
  *              200:
- *                  description: "Successfully list files"
+ *                  description: "Successfully get file"
  *                  content:
  *                      application/json:
  *                          schema:
