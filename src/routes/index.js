@@ -44,18 +44,52 @@ routes.get('/', (_, res) => {
  * @swagger
  * tags:
  *  name: Manage files
- *  description: Upload file to S3
- * /api/v1/files/upload:
- *  post:
- *      summary: Upload file API
+ *  description: Manage files into S3 Bucket
+ * paths:
+ *  /api/v1/files/upload:
+ *      post:
+ *          summary: Upload file into S3 Bucket
+ *          tags: [Manage files]
+ *          parameters:
+ *              - in: formData
+ *                name: file
+ *                type: file
+ *                required: true
+ *              - in: query
+ *                name: user
+ *                type: string
+ *                required: true
+ *          responses:
+ *              200:
+ *                  description: "Successfully upload file"
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  message:
+ *                                      type: string
+ *                                  key:
+ *                                      type: string
+ *                                  url:
+ *                                      type: string
+ *
+ *  /api/v1/files:
+ *     delete:
+ *      summary: Delete file into S3 Bucket
  *      tags: [Manage files]
- *      responseBody:
- *          description: Status upload file
- *          content:
- *              application/json:
+ *      parameters:
+ *          - in: query
+ *            name: id
+ *            type: string
+ *            required: true
+ *          - in: query
+ *            name: user
+ *            type: string
+ *            required: true
  *      responses:
  *          200:
- *              description: "Successfully upload file"
+ *              description: "Successfully delete file"
  *              content:
  *                  application/json:
  *                      schema:
@@ -63,33 +97,28 @@ routes.get('/', (_, res) => {
  *                          properties:
  *                              message:
  *                                  type: string
- *                              keyObject:
- *                                  type: string
  *
- *
- *  /api/v1/files/delete:
- *  delete:
- *      summary: Delete file API
- *      tags: [Manage files]
- *      requestBody:
- *          required: true
- *          content:
- *              application/json:
- *                  schema:
- *                      type: object
- *                      properties:
- *                          id:
- *                              type: string
- *      responses:
- *          200:
- *              description: "Delete successfully!"
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: object
- *                          properties:
- *                              message:
- *                                  type: string
+ *  /api/v1/files:
+ *      get:
+ *       summary: Get file into S3 Bucket
+ *       tags: [Manage files]
+ *       parameters:
+ *           - in: query
+ *             name: key
+ *             type: string
+ *             required: true
+ *       responses:
+ *           200:
+ *               description: "Successfully get file"
+ *               content:
+ *                   application/json:
+ *                       schema:
+ *                           type: object
+ *                           properties:
+ *                               message:
+ *                                   type: string
+ *                               url:
+ *                                   type: string
  */
 routes.use('/api/v1/files', files)
 
