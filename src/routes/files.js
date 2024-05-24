@@ -2,6 +2,7 @@ import { Router } from 'express'
 import multer from 'multer'
 import { memoryStorage } from 'multer'
 import { v4 as uuidv4 } from 'uuid'
+import fs from 'node:fs'
 
 import { S3Client } from '@aws-sdk/client-s3'
 import { PutObjectCommand } from '@aws-sdk/client-s3'
@@ -78,13 +79,20 @@ routes.delete('/', async (req, res) => {
 })
 
 routes.get('/', async (req, res) => {
-    const { key } = req.query
+    const { key, download } = req.query
     if (!key || typeof key !== 'string' || key.trim().length === 0)
         return res.status(400).json({ message: 'Invalid key!' })
 
     try {
         const command = new GetObjectCommand({ Bucket: bucketName, Key: key })
         const response = await s3.send(command)
+
+        if (typeof download === 'string' && download.toLowerCase() === 'true') {
+            res.setHeader('Content-Type', response.ContentType)
+            res.setHeader('Content-Disposition', `attachment; file="${key}"`)
+            return response.Body.pipe(res)
+        }
+
         const url = await getSignedUrl(s3, command)
         res.status(200).json({ message: 'Get successfully!', url })
     } catch (error) {
